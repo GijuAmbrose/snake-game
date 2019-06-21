@@ -1,0 +1,32 @@
+<!DOCTYPE>
+<html>
+<head>
+	<style>
+		canvas {border: 5px solid black;}
+	</style>
+	
+</head>
+<body>
+	<p align="center" style="margin-top: 100px">
+	<canvas width="1000" height="500" id="myCanvas">	
+	</canvas>
+	</p>
+	<script>
+
+		var canvas = document.getElementById("myCanvas");
+		var ctx = canvas.getContext('2d');
+		ctx.fillRect(20, 200, 50, 50);
+		ctx.fillRect(72, 200, 50, 50);
+		ctx.fillRect(124, 200, 50, 50);
+		ctx.fillRect(176, 200, 50, 50);
+		ctx.fillRect(700, 100, 50, 50);
+		ctx.fillRect(0, 0, 50, 50);
+		ctx.fillRect(0, 52, 50, 50);
+		ctx.fillRect(52, 0, 50, 50);
+		ctx.fillRect(950, 450, 50, 50);
+		ctx.fillRect(898, 450, 50, 50);
+		ctx.fillRect(950, 398, 50, 50);
+	</script>
+	<p id="console-log"></p>
+</body>
+</html>
