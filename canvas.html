@@ -7,26 +7,148 @@
 	
 </head>
 <body>
-	<p align="center" style="margin-top: 100px">
+	<p align="center" style="margin-top: 100px" id="container">
 	<canvas width="1000" height="500" id="myCanvas">	
 	</canvas>
 	</p>
+	<p id="console-log"></p>
 	<script>
-
+		var container = document.getElementById("container");
+		var log = document.getElementById("console-log")
 		var canvas = document.getElementById("myCanvas");
 		var ctx = canvas.getContext('2d');
-		ctx.fillRect(20, 200, 50, 50);
-		ctx.fillRect(72, 200, 50, 50);
-		ctx.fillRect(124, 200, 50, 50);
-		ctx.fillRect(176, 200, 50, 50);
-		ctx.fillRect(700, 100, 50, 50);
-		ctx.fillRect(0, 0, 50, 50);
-		ctx.fillRect(0, 52, 50, 50);
-		ctx.fillRect(52, 0, 50, 50);
-		ctx.fillRect(950, 450, 50, 50);
-		ctx.fillRect(898, 450, 50, 50);
-		ctx.fillRect(950, 398, 50, 50);
+		ctx.fillRect(20, 200, 25, 25);
+		var x=20,y=200,n=1;
+
+		window.addEventListener('keydown', (e) => {
+			if (!e.repeat)
+				console.log(`Key ${e.keyCode} pressed [event: keydown]`);
+			else
+				console.log(`Key "${e.keyCode}" repeating [event: keydown]`);
+
+
+				switch(`${e.keyCode}`){
+					case '38':
+						var upinterval = setInterval(up,1000);
+					break;
+					case '40':
+						var downinterval = setInterval(down, 1000);
+					break;
+					case '39':
+						clearInterval(upinterval);
+						var rightinterval = setInterval(right, 1000);
+					break;
+					case '37':
+						var leftinterval = setInterval(left,1000);
+					break;
+				}
+
+			/*if (`${e.keyCode}` == 38){
+				var upinterval = setInterval(up,2000);
+			}
+			else if (`${e.keyCode}` == 40){
+				var downinterval = setInterval(down, 2000);
+			}
+			else if (`${e.keyCode}` == 39){
+				var rightinterval = setInterval(right, 2000);
+			}
+			else if (`${e.keyCode}` == 37){
+				var leftinterval = setInterval(left,2000);
+			}*/
+		function up(){
+			ctx.fillRect(x, y-25, 25, 25);
+			ctx.clearRect(x, y, 25, 25);
+			y = y - 25;
+			clearInterval(rightinterval);
+			if (y == -25){
+				alert("game end");
+			}
+
+		}
+		/*function down(){
+			ctx.fillRect(x, y+25, 25, 25);
+			ctx.clearRect(x, y, 25, 25);
+			y = y + 25;
+			clearInterval(upinterval);
+			clearInterval(rightinterval);
+			clearInterval(leftinterval);
+			if (y == 500)
+			alert("game end");
+		}*/
+		function right(){
+			
+			ctx.fillRect(x+25, y, 25, 25);
+			ctx.clearRect(x, y, 25, 25);
+			x = x + 25;
+			clearInterval(upinterval);
+			if(x == 1000){
+			alert("game end");
+			}
+			
+		}
+		/*function left(){
+			ctx.fillRect(x-25, y, 25, 25);
+			ctx.clearRect(x, y, 25, 25);
+			x = x - 25;
+			clearInterval(upinterval);
+			clearInterval(downinterval);
+			clearInterval(rightinterval);
+			if(x == -25)
+			alert("game end");
+		}*/
+			
+
+			/*function game() {
+				switch(`${e.keyCode}`)
+				{
+					case '38':
+					ctx.fillRect(x, y-50, 50, 50);
+				  ctx.clearRect(x, y, 50, 50);
+				  y = y - 50;
+				  if (y == -50)
+					alert("game end");
+					break;
+					case '39':
+					ctx.fillRect(x+50, y, 50, 50);
+				  ctx.clearRect(x, y, 50, 50);
+				  x = x + 50;
+				  if(x == 1000)
+					alert("game end");
+					break;
+					case '37':
+					ctx.fillRect(x-50, y, 50, 50);
+				  ctx.clearRect(x, y, 50, 50);
+				  x = x - 50;
+				  if(x == -50)
+					alert("game end");
+					break;
+					case '38':
+					ctx.fillRect(x, y+50, 50, 50);
+				  ctx.clearRect(x, y, 50, 50);
+				  y = y + 50;
+				  if (y == 500)
+					alert("game end");
+					break;
+				}*/
+
+			/*if (`${e.keyCode}`  == '38')
+			{
+					ctx.fillRect(x, y-50, 50, 50);
+				  ctx.clearRect(x, y, 50, 50);
+				  y = y - 50;
+				  if (y == -50)
+					alert("game end");
+			}
+			else if(`${e.keyCode}`  == '39')
+			{
+				
+						ctx.fillRect(x+50, y, 50, 50);
+				  	ctx.clearRect(x, y, 50, 50);
+				  	x = x + 50;
+				  	if(x == 1000)
+						alert("game end");
+			}*/
+		});
 	</script>
-	<p id="console-log"></p>
 </body>
 </html>
