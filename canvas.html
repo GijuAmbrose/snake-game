@@ -17,13 +17,29 @@
 		var log = document.getElementById("console-log")
 		var canvas = document.getElementById("myCanvas");
 		var ctx = canvas.getContext('2d');
-		ctx.fillRect(500, 200, 25, 25);
-		ctx.fillRect(x1, y1, 25, 25);
-		var x=500,y=200,n=1,x1=200,y1=25,i=25,j=25,flag,recx,recy;
-		ctx.fillRect(x1, y1, 25, 25);
+		const unit = 15;
+		var snake1 = [],snake2 = [],temp=[];
+		temp[0]= {x:0,y:0};
+		snake1[0]={
+			x: 10*unit, y: 20*unit 
+		};
+		snake1[1]={
+			x: 12*unit	, y: 20*unit
+		};
+		snake1[2]={
+			x: 14*unit	, y: 20*unit
+		};
+		for(var i=0;i<snake1.length;i++)
+		{
+			ctx.fillRect(snake1[i].x,snake1[i].y, unit, unit);
+		}
 		var interval,collisionInterval;
-
-
+		var x1= Math.floor(Math.random()*1000)+1;
+		var r = x1%30;
+		x1=x1 - r;
+		var y1= Math.floor(Math.random()*500)+1;
+		var re = y1%30;
+		y1=y1 -re;
 		window.addEventListener('keydown', (e) => {
 			if (!e.repeat){
 				console.log(`Key ${e.keyCode} pressed [event: keydown]`);
@@ -35,7 +51,7 @@
 				clearInterval(interval);
 			}
 			
-			/*collisionInterval = setInterval(collision, 100);*/
+			collisionInterval = setInterval(collision, 100);
 			
 
 				switch(`${e.keyCode}`){
@@ -74,52 +90,111 @@
 
 
 
-		/*function collision(){
-			ctx.fillRect(x1, y1, 25, 25);
-		}*/	
+		function collision(){
+			ctx.fillRect(x1,y1,15,15);
+		}	
 
 
 		function up(){
-			ctx.fillRect(x, y-25, 25, 25);
-			
-			ctx.fillRect(x, y - 25, 25, 25);
-			ctx.clearRect(x, y, 25, 25);
-			y = y - 25;
-			if (y == -25){
-				alert("game end");
-			}
+			for(var i=0;i<snake1.length-1;i++){
+				snake2[0] = {x: snake1[0].x, y: snake1[0].y - unit*2};
+				ctx.clearRect(temp[0].x,temp[0].y,unit,unit);
+				console.log(`cleared ${temp[0].x}, ${temp[0].y}`);
+				ctx.fillRect(snake2[i].x,snake2[i].y,unit,unit);
+				console.log(`created ${snake2[i].x}, ${snake2[i].y}`);
+				if(snake2[i].y == -30){
+					alert("game end");
+					window.location.reload();
+				}
+				if(snake2[0].x == x1 && snake2[0].y ==y1){
+					snake1.length = snake1.length+1
+					snake1[snake1.length-1] = snake1[snake1.length-2].x, snake1[snake1.length-2].y-unit*2;
+					temp[0]= snake1[snake1.length-1];
+					clearInterval(collisionInterval);
+					
+				}
+				else{
+					temp[0]= snake1[snake1.length-1];
+					snake1[snake1.length-1] = snake1[i+1];
+					console.log(`last element ${snake1[snake1.length-1].x}, ${snake1[snake1.length-1].y}`);
+					snake1[i+1] = snake1[i];
+					console.log(`next element ${snake1[i+1].x}, ${snake1[i+1].y}`);
+					snake1[0]=snake2[i];
+				}
 
+			}
+			snake1=snake2;
+			
 		}
 		function down(){
-			ctx.fillRect(x, y+25, 25, 25);
-			ctx.clearRect(x, y, 25, 25);
-			y = y + 25;
-			if (x == x1 && y == y1)
-			{
-					alert("eated");
+			for(var i=0;i<snake1.length-1;i++){
+				snake2[0] = {x: snake1[0].x , y: snake1[0].y + unit*2 };
+				ctx.clearRect(temp[0].x,temp[0].y,unit,unit);
+				console.log(`cleared ${temp[0].x}, ${temp[0].y}`);
+				ctx.fillRect(snake2[i].x,snake2[i].y,unit,unit);
+				console.log(`created ${snake2[i].x}, ${snake2[i].y}`);
+				if(snake2[i].y == 510){
+					alert("game end");
+					window.location.reload();
+				}
+
+
+				temp[0]= snake1[snake1.length-1];
+				snake1[snake1.length-1] = snake1[i+1];
+				console.log(`last element ${snake1[snake1.length-1].x}, ${snake1[snake1.length-1].y}`);
+				snake1[i+1] = snake1[i];
+				console.log(`next element ${snake1[i+1].x}, ${snake1[i+1].y}`);
+				
+				snake1[0]=snake2[i];
 			}
-			if (y == 500)
-			alert("game end");
+			snake1=snake2;
 		}
 		function right(){
-			ctx.fillRect(x+25, y, 25, 25);
-			ctx.clearRect(x, y, 25, 25);
-			x = x + 25;
-			if (x == x1 && y == y1)
-			{
-					alert("eated");
+			for(var i=0;i<snake1.length-1;i++){
+				snake2[0] = {x: snake1[0].x + unit*2, y: snake1[0].y };
+				ctx.clearRect(temp[0].x,temp[0].y,unit,unit);
+				console.log(`cleared ${temp[0].x}, ${temp[0].y}`);
+				ctx.fillRect(snake2[i].x,snake2[i].y,unit,unit);
+				console.log(`created ${snake2[i].x}, ${snake2[i].y}`);
+				if(snake2[i].x == 1020){
+					alert("game end");
+					window.location.reload();
+				}
+
+
+				temp[0]= snake1[snake1.length-1];
+				snake1[snake1.length-1] = snake1[i+1];
+				console.log(`last element ${snake1[snake1.length-1].x}, ${snake1[snake1.length-1].y}`);
+				snake1[i+1] = snake1[i];
+				console.log(`next element ${snake1[i+1].x}, ${snake1[i+1].y}`);
+				
+				snake1[0]=snake2[i];
 			}
-			if(x == 1000){
-			alert("game end");
-			}
+			snake1=snake2;
 			
 		}
 		function left(){
-			ctx.fillRect(x-25, y, 25, 25);
-			ctx.clearRect(x,y,25,25);
-			x = x - 25;
-			if(x == -25)
-			alert("game end");
+			for(var i=0;i<snake1.length-1;i++){
+				snake2[0] = {x: snake1[0].x - unit*2, y: snake1[0].y };
+				ctx.clearRect(temp[0].x,temp[0].y,unit,unit);
+				console.log(`cleared ${temp[0].x}, ${temp[0].y}`);
+				ctx.fillRect(snake2[i].x,snake2[i].y,unit,unit);
+				console.log(`created ${snake2[i].x}, ${snake2[i].y}`);
+				if(snake2[i].x == -30){
+					alert("game end");
+					window.location.reload();
+				}
+
+
+				temp[0]= snake1[snake1.length-1];
+				snake1[snake1.length-1] = snake1[i+1];
+				console.log(`last element ${snake1[snake1.length-1].x}, ${snake1[snake1.length-1].y}`);
+				snake1[i+1] = snake1[i];
+				console.log(`next element ${snake1[i+1].x}, ${snake1[i+1].y}`);
+				
+				snake1[0]=snake2[i];
+			}
+			snake1=snake2;
 		}
 
 			
@@ -155,7 +230,7 @@
 				  if (y == 500)
 					alert("game end");
 					break;
-				}*/
+				}
 
 			/*if (`${e.keyCode}`  == '38')
 			{
