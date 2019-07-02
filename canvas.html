@@ -6,7 +6,7 @@
 	</style>
 	
 </head>
-<body>
+<body style="background-color: green">
 	<p align="center" style="margin-top: 100px" id="container">
 	<canvas width="1000" height="500" id="myCanvas" style="background: grey; >	
 	</canvas>
@@ -106,23 +106,30 @@
 			if(snake1[0].x ==x1 && snake1[0].y ==y1)
 			{
 			ctx.clearRect(x1,y1,unit,unit);
-			 x1= Math.floor(Math.random()*1000)+1;
-			 r = x1%30;
-			x1=x1 - r;
-			 y1= Math.floor(Math.random()*500)+1;
-			 re = y1%30;
-			y1=y1 -re;
+			x1= Math.floor(Math.random()*1000)+1;
+				 r = x1%30;
+				x1=x1 - r;
+				 y1= Math.floor(Math.random()*500)+1;
+				 re = y1%30;
+				y1=y1 -re;
+			for(i=0;i<snake1.length-1;i++){
+				if(snake1[i].x ==x1 && snake1[i].y ==y1){
+					x1= Math.floor(Math.random()*1000)+1;
+					 r = x1%30;
+					x1=x1 - r;
+					 y1= Math.floor(Math.random()*500)+1;
+					 re = y1%30;
+					y1=y1 -re;
+				}
+			}
 			ctx.fillStyle="black";
-			ctx.fillRect(x1,y1,unit,unit);
+				ctx.fillRect(x1,y1,unit,unit);
 			for(var i=snake1.length;i>0;i--){
 				snake1[i] = snake1[i-1];
 			}
 			
 			snake1[0] = {x: snake1[0].x , y: snake1[0].y - unit*2 };
 			console.log(`${snake1.length}`);
-
-
-
 			}
 			else{
 				
@@ -133,7 +140,7 @@
 				
 
 				if(snake1[0].y == -30){
-					alert("game end");
+					alert("Game end");
 					window.location.reload();
 				}
 				for(var i=1;i<snake1.length;i++){
@@ -163,9 +170,18 @@
 				 y1= Math.floor(Math.random()*500)+1;
 				 re = y1%30;
 				y1=y1 -re;
-				ctx.fillStyle="black";
+				for(i=0;i<snake1.length-1;i++){
+				if(snake1[i].x ==x1 && snake1[i].y ==y1){
+					x1= Math.floor(Math.random()*1000)+1;
+					 r = x1%30;
+					x1=x1 - r;
+					 y1= Math.floor(Math.random()*500)+1;
+					 re = y1%30;
+					y1=y1 -re;
+				}
+			}
+			ctx.fillStyle="black";
 				ctx.fillRect(x1,y1,unit,unit);
-
 
 			for(var i=snake1.length;i>0;i--){
 				snake1[i] = snake1[i-1];
@@ -183,7 +199,7 @@
 				
 
 				if(snake1[0].y == 510){
-					alert("game end");
+					alert("Game end");
 					window.location.reload();
 				}
 
@@ -213,9 +229,18 @@
 				 y1= Math.floor(Math.random()*500)+1;
 				 re = y1%30;
 				y1=y1 -re;
-				ctx.fillStyle="black";
+				for(i=0;i<snake1.length-1;i++){
+				if(snake1[i].x ==x1 && snake1[i].y ==y1){
+					x1= Math.floor(Math.random()*1000)+1;
+					 r = x1%30;
+					x1=x1 - r;
+					 y1= Math.floor(Math.random()*500)+1;
+					 re = y1%30;
+					y1=y1 -re;
+				}
+			}
+			ctx.fillStyle="black";
 				ctx.fillRect(x1,y1,unit,unit);
-
 
 			for(var i=snake1.length;i>0;i--){
 				snake1[i] = snake1[i-1];
@@ -233,7 +258,7 @@
 				
 
 				if(snake1[0].x == 1020){
-					alert("game end");
+					alert("Game end");
 					window.location.reload();
 				}
 
@@ -265,10 +290,18 @@
 				 y1= Math.floor(Math.random()*500)+1;
 				 re = y1%30;
 				y1=y1 -re;
-				ctx.fillStyle="black";
+				for(i=0;i<snake1.length-1;i++){
+				if(snake1[i].x ==x1 && snake1[i].y ==y1){
+					x1= Math.floor(Math.random()*1000)+1;
+					 r = x1%30;
+					x1=x1 - r;
+					 y1= Math.floor(Math.random()*500)+1;
+					 re = y1%30;
+					y1=y1 -re;
+				}
+			}
+			ctx.fillStyle="black";
 				ctx.fillRect(x1,y1,unit,unit);
-
-
 
 			for(var i=snake1.length;i>0;i--){
 				snake1[i] = snake1[i-1];
@@ -285,8 +318,8 @@
 				snake1[0] = {x: snake1[0].x - unit*2  , y: snake1[0].y};
 				
 
-				if(snake1[0].y == -30){
-					alert("game end");
+				if(snake1[0].x == -30){
+					alert("Game end");
 					window.location.reload();
 				}
 
