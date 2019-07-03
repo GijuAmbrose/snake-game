@@ -40,7 +40,7 @@
 			ctx.fillStyle = "white";
 			ctx.fillRect(snake1[i].x,snake1[i].y, unit, unit);
 		}
-		var interval,collisionInterval;
+		var interval,collisionInterval,direction = "";
 		var x1= Math.floor(Math.random()*1000)+1;
 		var r = x1%30;
 		x1=x1 - r;
@@ -64,45 +64,45 @@
 
 				switch(`${e.keyCode}`){
 					case '38':
-						
-						interval = setInterval(up,100);
+						if (direction!='down'){
+							interval = setInterval(up,100);}
+						else{
+							interval = setInterval(down,100);	
+						}	
 					break;
 					case '40':
-						
-						interval = setInterval(down, 100);
+						if (direction!='up'){
+							interval = setInterval(down, 100);}
+						else{
+							interval = setInterval(up,100);	
+						}
+
 					break;
 					case '39':
-						
-						interval = setInterval(right, 100);
+						if (direction!='left'){
+							interval = setInterval(right, 100);}
+						else{
+							interval = setInterval(left,100);	
+						}	
 
 					break;
 					case '37':
-						
-						interval = setInterval(left, 100);
+						if (direction!='right'){
+							interval = setInterval(left, 100);}
+						else{
+							interval = setInterval(right,100);	
+						}	
 					break;
+					
 				}
-
-			/*if (`${e.keyCode}` == 38){
-				var upinterval = setInterval(up,2000);
-			}
-			else if (`${e.keyCode}` == 40){
-				var downinterval = setInterval(down, 2000);
-			}
-			else if (`${e.keyCode}` == 39){
-				var rightinterval = setInterval(right, 2000);
-			}
-			else if (`${e.keyCode}` == 37){
-				var leftinterval = setInterval(left,2000);
-			}*/
-
-
-
-
-
-
-
 		function up(){
 			ctx.clearRect(snake1[snake1.length-1].x,snake1[snake1.length-1].y,unit,unit);
+			direction = "up";
+			if(snake1[0].y == 0){
+				console.log(`${snake1[0].y}`);
+					alert("Game end");
+					window.location.reload();
+				}
 			if(snake1[0].x ==x1 && snake1[0].y ==y1)
 			{
 			ctx.clearRect(x1,y1,unit,unit);
@@ -139,10 +139,7 @@
 				snake1[0] = {x: snake1[0].x , y: snake1[0].y - unit*2 };
 				
 
-				if(snake1[0].y == -30){
-					alert("Game end");
-					window.location.reload();
-				}
+				
 				for(var i=1;i<snake1.length;i++){
 					if(snake1[i].x==snake1[0].x && snake1[i].y==snake1[0].y){
 						alert("Game end");
@@ -161,6 +158,12 @@
 		}
 		function down(){
 			ctx.clearRect(snake1[snake1.length-1].x,snake1[snake1.length-1].y,unit,unit);
+			direction = "down";
+				if(snake1[0].y == 480){
+					console.log(`${snake1[0].y}`);
+					alert("Game end");
+					window.location.reload();
+				}
 			if(snake1[0].x ==x1 && snake1[0].y ==y1)
 			{
 				ctx.clearRect(x1,y1,unit,unit);
@@ -198,10 +201,6 @@
 				snake1[0] = {x: snake1[0].x , y: snake1[0].y + unit*2 };
 				
 
-				if(snake1[0].y == 510){
-					alert("Game end");
-					window.location.reload();
-				}
 
 				for(var i=1;i<snake1.length;i++){
 					if(snake1[i].x==snake1[0].x && snake1[i].y==snake1[0].y){
@@ -220,6 +219,12 @@
 		}
 		function right(){
 			ctx.clearRect(snake1[snake1.length-1].x,snake1[snake1.length-1].y,unit,unit);
+			direction = "right";
+			if(snake1[0].x == 990){
+					console.log(`${snake1[0].x}`);
+					alert("Game end");
+					window.location.reload();
+				}
 			if(snake1[0].x ==x1 && snake1[0].y ==y1)
 			{
 				ctx.clearRect(x1,y1,unit,unit);
@@ -257,11 +262,6 @@
 				snake1[0] = {x: snake1[0].x + unit*2 , y: snake1[0].y   };
 				
 
-				if(snake1[0].x == 1020){
-					alert("Game end");
-					window.location.reload();
-				}
-
 
 				for(var i=1;i<snake1.length;i++){
 					if(snake1[i].x==snake1[0].x && snake1[i].y==snake1[0].y){
@@ -281,6 +281,12 @@
 		}
 		function left(){
 			ctx.clearRect(snake1[snake1.length-1].x,snake1[snake1.length-1].y,unit,unit);
+			direction = "left";
+			if(snake1[0].x == 0){
+					console.log(`${snake1[0].x}`);
+					alert("Game end");
+					window.location.reload();
+				}
 			if(snake1[0].x ==x1 && snake1[0].y ==y1)
 			{
 				ctx.clearRect(x1,y1,unit,unit);
@@ -318,10 +324,7 @@
 				snake1[0] = {x: snake1[0].x - unit*2  , y: snake1[0].y};
 				
 
-				if(snake1[0].x == -30){
-					alert("Game end");
-					window.location.reload();
-				}
+				
 
 				for(var i=1;i<snake1.length;i++){
 					if(snake1[i].x==snake1[0].x && snake1[i].y==snake1[0].y){
@@ -338,59 +341,6 @@
 				ctx.fillRect(snake1[i].x,snake1[i].y,unit,unit); 
 			}
 		}
-
-			
-
-			/*function game() {
-				switch(`${e.keyCode}`)
-				{
-					case '38':
-					ctx.fillRect(x, y-50, 50, 50);
-				  ctx.clearRect(x, y, 50, 50);
-				  y = y - 50;
-				  if (y == -50)
-					alert("game end");
-					break;
-					case '39':
-					ctx.fillRect(x+50, y, 50, 50);
-				  ctx.clearRect(x, y, 50, 50);
-				  x = x + 50;
-				  if(x == 1000)
-					alert("game end");
-					break;
-					case '37':
-					ctx.fillRect(x-50, y, 50, 50);
-				  ctx.clearRect(x, y, 50, 50);
-				  x = x - 50;
-				  if(x == -50)
-					alert("game end");
-					break;
-					case '38':
-					ctx.fillRect(x, y+50, 50, 50);
-				  ctx.clearRect(x, y, 50, 50);
-				  y = y + 50;
-				  if (y == 500)
-					alert("game end");
-					break;
-				}
-
-			/*if (`${e.keyCode}`  == '38')
-			{
-					ctx.fillRect(x, y-50, 50, 50);
-				  ctx.clearRect(x, y, 50, 50);
-				  y = y - 50;
-				  if (y == -50)
-					alert("game end");
-			}
-			else if(`${e.keyCode}`  == '39')
-			{
-				
-						ctx.fillRect(x+50, y, 50, 50);
-				  	ctx.clearRect(x, y, 50, 50);
-				  	x = x + 50;
-				  	if(x == 1000)
-						alert("game end");
-			}*/
 		});
 	</script>
 </body>
