@@ -3,8 +3,7 @@
 <head>
 	<style>
 		canvas {border: 5px solid black;}
-	</style>
-	
+	</style>	
 </head>
 <body style="background-color: green">
 	<p align="center" style="margin-top: 100px" id="container">
@@ -18,8 +17,7 @@
 		var canvas = document.getElementById("myCanvas");
 		var ctx = canvas.getContext('2d');
 		const unit = 15;
-		var snake1 = [],snake2 = [],temp=[];
-		temp[0]= {x:0,y:0};
+		var snake1 = [];
 		snake1[0]={
 			x: 10*unit, y: 20*unit 
 		};
@@ -59,99 +57,87 @@
 			if (interval) {
 				clearInterval(interval);
 			}
-			
-			
-
-				switch(`${e.keyCode}`){
-					case '38':
-						if (direction!='down'){
-							interval = setInterval(up,100);}
-						else{
-							interval = setInterval(down,100);	
-						}	
-					break;
-					case '40':
-						if (direction!='up'){
-							interval = setInterval(down, 100);}
-						else{
-							interval = setInterval(up,100);	
-						}
-
-					break;
-					case '39':
-						if (direction!='left'){
-							interval = setInterval(right, 100);}
-						else{
-							interval = setInterval(left,100);	
-						}	
-
-					break;
-					case '37':
-						if (direction!='right'){
-							interval = setInterval(left, 100);}
-						else{
-							interval = setInterval(right,100);	
-						}	
-					break;
-					
+			switch(`${e.keyCode}`){
+				case '38':
+					if (direction!='down'){
+						interval = setInterval(up,100);}
+					else{
+						interval = setInterval(down,100);	
+					}	
+				break;
+				case '40':
+					if (direction!='up'){
+						interval = setInterval(down, 100);}
+					else{
+						interval = setInterval(up,100);	
+					}
+				break;
+				case '39':
+					if (direction!='left'){
+						interval = setInterval(right, 100);}
+					else{
+						interval = setInterval(left,100);	
+					}	
+				break;
+				case '37':
+					if (direction!='right'){
+						interval = setInterval(left, 100);}
+					else{
+						interval = setInterval(right,100);	
+					}	
+				break;	
 				}
-		function up(){
-			ctx.clearRect(snake1[snake1.length-1].x,snake1[snake1.length-1].y,unit,unit);
-			direction = "up";
-			if(snake1[0].y == 0){
-				console.log(`${snake1[0].y}`);
+			function up(){
+				ctx.clearRect(snake1[snake1.length-1].x,snake1[snake1.length-1].y,unit,unit);
+				direction = "up";
+				if(snake1[0].y == 0){
+					console.log(`${snake1[0].y}`);
 					alert("Game end");
 					window.location.reload();
-				}
-			if(snake1[0].x ==x1 && snake1[0].y ==y1)
-			{
-			ctx.clearRect(x1,y1,unit,unit);
-			x1= Math.floor(Math.random()*1000)+1;
-				 r = x1%30;
-				x1=x1 - r;
-				 y1= Math.floor(Math.random()*500)+1;
-				 re = y1%30;
-				y1=y1 -re;
-			for(i=0;i<snake1.length-1;i++){
-				if(snake1[i].x ==x1 && snake1[i].y ==y1){
+					}
+				if(snake1[0].x ==x1 && snake1[0].y ==y1){
+					ctx.clearRect(x1,y1,unit,unit);
 					x1= Math.floor(Math.random()*1000)+1;
-					 r = x1%30;
+					r = x1%30;
 					x1=x1 - r;
-					 y1= Math.floor(Math.random()*500)+1;
-					 re = y1%30;
+					y1= Math.floor(Math.random()*500)+1;
+					re = y1%30;
 					y1=y1 -re;
+					for(i=0;i<snake1.length-1;i++){
+						if(snake1[i].x ==x1 && snake1[i].y ==y1){
+							x1= Math.floor(Math.random()*1000)+1;
+							 r = x1%30;
+							x1=x1 - r;
+							 y1= Math.floor(Math.random()*500)+1;
+							 re = y1%30;
+							y1=y1 -re;
+						}
+					}
+					ctx.fillStyle="black";
+					ctx.fillRect(x1,y1,unit,unit);
+					for(var i=snake1.length;i>0;i--){
+						snake1[i] = snake1[i-1];
+					}
+					
+					snake1[0] = {x: snake1[0].x , y: snake1[0].y - unit*2 };
+					console.log(`${snake1.length}`);
 				}
-			}
-			ctx.fillStyle="black";
-				ctx.fillRect(x1,y1,unit,unit);
-			for(var i=snake1.length;i>0;i--){
-				snake1[i] = snake1[i-1];
-			}
-			
-			snake1[0] = {x: snake1[0].x , y: snake1[0].y - unit*2 };
-			console.log(`${snake1.length}`);
-			}
-			else{
-				
-				for(var i=snake1.length-1;i>0;i--){
-					snake1[i] = snake1[i-1];
-				}
-				snake1[0] = {x: snake1[0].x , y: snake1[0].y - unit*2 };
-				
-
-				
-				for(var i=1;i<snake1.length;i++){
-					if(snake1[i].x==snake1[0].x && snake1[i].y==snake1[0].y){
-						alert("Game end");
-						window.location.reload();
+				else{
+					for(var i=snake1.length-1;i>0;i--){
+						snake1[i] = snake1[i-1];
+					}
+					snake1[0] = {x: snake1[0].x , y: snake1[0].y - unit*2 };
+					for(var i=1;i<snake1.length;i++){
+						if(snake1[i].x==snake1[0].x && snake1[i].y==snake1[0].y){
+							alert("Game end");
+							window.location.reload();
+						}
 					}
 				}
-			}
 			ctx.fillStyle = "red";
-				ctx.fillRect(snake1[0].x,snake1[0].y,unit,unit);
+			ctx.fillRect(snake1[0].x,snake1[0].y,unit,unit);
 			for(var i=1;i<=snake1.length-1;i++){
 				console.log(`${snake1[i].x},${snake1[i].y}`);
-
 				ctx.fillStyle = "yellow";
 				ctx.fillRect(snake1[i].x,snake1[i].y,unit,unit); 
 			}
@@ -159,49 +145,42 @@
 		function down(){
 			ctx.clearRect(snake1[snake1.length-1].x,snake1[snake1.length-1].y,unit,unit);
 			direction = "down";
-				if(snake1[0].y == 480){
-					console.log(`${snake1[0].y}`);
-					alert("Game end");
-					window.location.reload();
-				}
-			if(snake1[0].x ==x1 && snake1[0].y ==y1)
-			{
+			if(snake1[0].y == 480){
+				console.log(`${snake1[0].y}`);
+				alert("Game end");
+				window.location.reload();
+			}
+			if(snake1[0].x ==x1 && snake1[0].y ==y1){
 				ctx.clearRect(x1,y1,unit,unit);
-				 x1= Math.floor(Math.random()*1000)+1;
-				 r = x1%30;
+				x1= Math.floor(Math.random()*1000)+1;
+				r = x1%30;
 				x1=x1 - r;
-				 y1= Math.floor(Math.random()*500)+1;
-				 re = y1%30;
+				y1= Math.floor(Math.random()*500)+1;
+				re = y1%30;
 				y1=y1 -re;
 				for(i=0;i<snake1.length-1;i++){
-				if(snake1[i].x ==x1 && snake1[i].y ==y1){
-					x1= Math.floor(Math.random()*1000)+1;
-					 r = x1%30;
-					x1=x1 - r;
-					 y1= Math.floor(Math.random()*500)+1;
-					 re = y1%30;
-					y1=y1 -re;
+					if(snake1[i].x ==x1 && snake1[i].y ==y1){
+						x1= Math.floor(Math.random()*1000)+1;
+						r = x1%30;
+						x1=x1 - r;
+						y1= Math.floor(Math.random()*500)+1;
+						re = y1%30;
+						y1=y1 -re;
+					}
 				}
-			}
-			ctx.fillStyle="black";
+				ctx.fillStyle="black";
 				ctx.fillRect(x1,y1,unit,unit);
-
-			for(var i=snake1.length;i>0;i--){
-				snake1[i] = snake1[i-1];
-			}
-			
+				for(var i=snake1.length;i>0;i--){
+					snake1[i] = snake1[i-1];
+				}
 			snake1[0] = {x: snake1[0].x , y: snake1[0].y + unit*2 };
 			console.log(`${snake1.length}`);
 			}
 			else{
-				
 				for(var i=snake1.length-1;i>0;i--){
 					snake1[i] = snake1[i-1];
 				}
 				snake1[0] = {x: snake1[0].x , y: snake1[0].y + unit*2 };
-				
-
-
 				for(var i=1;i<snake1.length;i++){
 					if(snake1[i].x==snake1[0].x && snake1[i].y==snake1[0].y){
 						alert("Game end");
@@ -210,7 +189,7 @@
 				}
 			}
 			ctx.fillStyle = "red";
-				ctx.fillRect(snake1[0].x,snake1[0].y,unit,unit);
+			ctx.fillRect(snake1[0].x,snake1[0].y,unit,unit);
 			for(var i=1;i<=snake1.length-1;i++){
 				console.log(`${snake1[i].x},${snake1[i].y}`);
 				ctx.fillStyle = "yellow";
@@ -221,48 +200,41 @@
 			ctx.clearRect(snake1[snake1.length-1].x,snake1[snake1.length-1].y,unit,unit);
 			direction = "right";
 			if(snake1[0].x == 990){
-					console.log(`${snake1[0].x}`);
-					alert("Game end");
-					window.location.reload();
-				}
-			if(snake1[0].x ==x1 && snake1[0].y ==y1)
-			{
+				console.log(`${snake1[0].x}`);
+				alert("Game end");
+				window.location.reload();
+			}
+			if(snake1[0].x ==x1 && snake1[0].y ==y1){
 				ctx.clearRect(x1,y1,unit,unit);
-				 x1= Math.floor(Math.random()*1000)+1;
-				 r = x1%30;
+				x1= Math.floor(Math.random()*1000)+1;
+				r = x1%30;
 				x1=x1 - r;
-				 y1= Math.floor(Math.random()*500)+1;
-				 re = y1%30;
+				y1= Math.floor(Math.random()*500)+1;
+				re = y1%30;
 				y1=y1 -re;
 				for(i=0;i<snake1.length-1;i++){
-				if(snake1[i].x ==x1 && snake1[i].y ==y1){
-					x1= Math.floor(Math.random()*1000)+1;
-					 r = x1%30;
-					x1=x1 - r;
-					 y1= Math.floor(Math.random()*500)+1;
-					 re = y1%30;
-					y1=y1 -re;
+					if(snake1[i].x ==x1 && snake1[i].y ==y1){
+						x1= Math.floor(Math.random()*1000)+1;
+					 	r = x1%30;
+						x1=x1 - r;
+					 	y1= Math.floor(Math.random()*500)+1;
+					 	re = y1%30;
+						y1=y1 -re;
+					}
 				}
-			}
-			ctx.fillStyle="black";
+				ctx.fillStyle="black";
 				ctx.fillRect(x1,y1,unit,unit);
-
-			for(var i=snake1.length;i>0;i--){
-				snake1[i] = snake1[i-1];
-			}
-		
-			snake1[0] = {x: snake1[0].x+unit*2 , y: snake1[0].y };
-			console.log(`${snake1.length}`);
+				for(var i=snake1.length;i>0;i--){
+					snake1[i] = snake1[i-1];
+				}
+				snake1[0] = {x: snake1[0].x+unit*2 , y: snake1[0].y };
+				console.log(`${snake1.length}`);
 			}
 			else{
-				
 				for(var i=snake1.length-1;i>0;i--){
 					snake1[i] = snake1[i-1];
 				}
 				snake1[0] = {x: snake1[0].x + unit*2 , y: snake1[0].y   };
-				
-
-
 				for(var i=1;i<snake1.length;i++){
 					if(snake1[i].x==snake1[0].x && snake1[i].y==snake1[0].y){
 						alert("Game end");
@@ -283,49 +255,41 @@
 			ctx.clearRect(snake1[snake1.length-1].x,snake1[snake1.length-1].y,unit,unit);
 			direction = "left";
 			if(snake1[0].x == 0){
-					console.log(`${snake1[0].x}`);
-					alert("Game end");
-					window.location.reload();
-				}
-			if(snake1[0].x ==x1 && snake1[0].y ==y1)
-			{
+				console.log(`${snake1[0].x}`);
+				alert("Game end");
+				window.location.reload();
+			}
+			if(snake1[0].x ==x1 && snake1[0].y ==y1){
 				ctx.clearRect(x1,y1,unit,unit);
-				 x1= Math.floor(Math.random()*1000)+1;
-				 r = x1%30;
+				x1= Math.floor(Math.random()*1000)+1;
+				r = x1%30;
 				x1=x1 - r;
-				 y1= Math.floor(Math.random()*500)+1;
-				 re = y1%30;
+				y1= Math.floor(Math.random()*500)+1;
+				re = y1%30;
 				y1=y1 -re;
 				for(i=0;i<snake1.length-1;i++){
-				if(snake1[i].x ==x1 && snake1[i].y ==y1){
-					x1= Math.floor(Math.random()*1000)+1;
-					 r = x1%30;
-					x1=x1 - r;
-					 y1= Math.floor(Math.random()*500)+1;
-					 re = y1%30;
-					y1=y1 -re;
+					if(snake1[i].x ==x1 && snake1[i].y ==y1){
+						x1= Math.floor(Math.random()*1000)+1;
+						 r = x1%30;
+						x1=x1 - r;
+						 y1= Math.floor(Math.random()*500)+1;
+						 re = y1%30;
+						y1=y1 -re;
+					}
 				}
-			}
-			ctx.fillStyle="black";
+				ctx.fillStyle="black";
 				ctx.fillRect(x1,y1,unit,unit);
-
-			for(var i=snake1.length;i>0;i--){
-				snake1[i] = snake1[i-1];
-			}
-		
-			snake1[0] = {x: snake1[0].x-unit*2 , y: snake1[0].y  };
-			console.log(`${snake1.length}`);
+				for(var i=snake1.length;i>0;i--){
+					snake1[i] = snake1[i-1];
+				}
+				snake1[0] = {x: snake1[0].x-unit*2 , y: snake1[0].y  };
+				console.log(`${snake1.length}`);
 			}
 			else{
-				
 				for(var i=snake1.length-1;i>0;i--){
 					snake1[i] = snake1[i-1];
 				}
 				snake1[0] = {x: snake1[0].x - unit*2  , y: snake1[0].y};
-				
-
-				
-
 				for(var i=1;i<snake1.length;i++){
 					if(snake1[i].x==snake1[0].x && snake1[i].y==snake1[0].y){
 						alert("Game end");
