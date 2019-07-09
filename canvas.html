@@ -5,16 +5,16 @@
 		canvas {border: 10px solid black;}
 	</style>
 	<h1 style="color: black;text-align: center">SNAKE GAME</h1>	
-</head>
+</head> 	
 <body style="background-color:coral">
 <div styel = 'margin-left: 70%;'>
 	<label style = 'margin-left: 85%;font-size: 20;color: black'>Score:</label> 
 	<label id = 'score' style = 'font-size: 25;padding: 15;color: white'>0</label>
 	<label style = 'margin-left: 85%;font-size: 20;color: black'>High Score:</label>
 	<label id = 'hscore' style = 'font-size: 25;padding: 15;color: white'>0</label>
-</div>    
-	<div align="center" style="margin-top: 25px" id="container" style="text-align: center;"style="position: absolute;">
-	<canvas width="1000" height="500" id="myCanvas" style="background: grey;" style="text-align: center">	
+</div>   
+<div align="center" style="margin-top: 25px" id="container" style="text-align: center;"style="position: absolute;">
+	<canvas width="1005" height="500" id="myCanvas" style="background: grey;" style="text-align: center">	
 	</canvas>
 </div>
 	
@@ -44,7 +44,7 @@
 			ctx.fillStyle = "white";
 			ctx.fillRect(snake1[i].x,snake1[i].y, unit, unit);
 		}
-		var interval,collisionInterval,direction = "",score=0,hscore=0;
+		var interval,collisionInterval,direction = "",score=0,hscore=0,flag = 0;
 		var x1= Math.floor(Math.random()*1000)+1;
 		var r = x1%30;
 		x1=x1 - r;
@@ -63,6 +63,13 @@
 			if (interval) {
 				clearInterval(interval);
 			}
+			if(flag == 0){
+				if(`${e.keyCode}` == '39'){
+				alert("press left,up or down !!!!!");
+				flag = 1;
+				window.reload();
+				}
+			}
 			switch(`${e.keyCode}`){
 				case '38':
 					if (direction!='down'){
@@ -70,6 +77,7 @@
 					else{
 						interval = setInterval(down,100);	
 					}	
+					flag = 1;
 				break;
 				case '40':
 					if (direction!='up'){
@@ -77,6 +85,7 @@
 					else{
 						interval = setInterval(up,100);	
 					}
+					flag = 1;
 				break;
 				case '39':
 					if (direction!='left'){
@@ -84,6 +93,7 @@
 					else{
 						interval = setInterval(left,100);	
 					}	
+					flag = 1;
 				break;
 				case '37':
 					if (direction!='right'){
@@ -92,6 +102,7 @@
 						interval = setInterval(right,100);	
 					}	
 				break;
+				flag = 1;
 				case '27':
 					alert("Paused....")	
 				}
@@ -101,12 +112,11 @@
 				if(snake1[0].y == 0){
 					console.log(`${snake1[0].y}`);
 					alert("Game end");
-					if(hscore<score){
+					if(localStorage.getItem("hscore") <= score){
 						hscore = score;
 						localStorage.setItem("hscore", hscore );
 						document.getElementById("hscore").innerText = localStorage.getItem("hscore");
 					}
-					alert(hscore);
 					window.location.reload();
 					}
 				if(snake1[0].x ==x1 && snake1[0].y ==y1){
@@ -122,10 +132,10 @@
 					document.getElementById("score").textContent = score;
 					for(i=0;i<snake1.length-1;i++){
 						if(snake1[i].x ==x1 && snake1[i].y ==y1){
-							x1= Math.floor(Math.random()*1000)+1;
+							x1= Math.floor(Math.random()*900)+1;
 							 r = x1%30;
 							x1=x1 - r;
-							 y1= Math.floor(Math.random()*500)+1;
+							 y1= Math.floor(Math.random()*400)+1;
 							 re = y1%30;
 							y1=y1 -re;
 						}
@@ -147,12 +157,11 @@
 					for(var i=1;i<snake1.length;i++){
 						if(snake1[i].x==snake1[0].x && snake1[i].y==snake1[0].y){
 							alert("Game end");
-							if(hscore<score){
+							if(localStorage.getItem("hscore")<=score){
 								hscore = score;
 								localStorage.setItem("hscore", hscore );
 								document.getElementById("hscore").innerText = localStorage.getItem("hscore");
 							}
-						alert(hscore);
 						window.location.reload();
 						}
 					}
@@ -171,30 +180,29 @@
 			if(snake1[0].y == 480){
 				console.log(`${snake1[0].y}`);
 				alert("Game end");
-				if(hscore<score){
+				if(localStorage.getItem("hscore")<=score){
 					hscore = score;
 					localStorage.setItem("hscore", hscore );
 					document.getElementById("hscore").innerText = localStorage.getItem("hscore");
 					}
-					alert(hscore);
 				window.location.reload();
 			}
 			if(snake1[0].x ==x1 && snake1[0].y ==y1){
 				ctx.clearRect(x1,y1,unit,unit);
-				x1= Math.floor(Math.random()*1000)+1;
+				x1= Math.floor(Math.random()*900)+1;
 				r = x1%30;
 				x1=x1 - r;
-				y1= Math.floor(Math.random()*500)+1;
+				y1= Math.floor(Math.random()*400)+1;
 				re = y1%30;
 				y1=y1 -re;
 				score++;
 				document.getElementById("score").textContent = score;
 				for(i=0;i<snake1.length-1;i++){
 					if(snake1[i].x ==x1 && snake1[i].y ==y1){
-						x1= Math.floor(Math.random()*1000)+1;
+						x1= Math.floor(Math.random()*900)+1;
 						r = x1%30;
 						x1=x1 - r;
-						y1= Math.floor(Math.random()*500)+1;
+						y1= Math.floor(Math.random()*400)+1;
 						re = y1%30;
 						y1=y1 -re;
 					}
@@ -215,12 +223,11 @@
 				for(var i=1;i<snake1.length;i++){
 					if(snake1[i].x==snake1[0].x && snake1[i].y==snake1[0].y){
 						alert("Game end");
-					if(hscore<score){
+					if(localStorage.getItem("hscore")<=score){
 						hscore = score;
 						localStorage.setItem("hscore", hscore );
 						document.getElementById("hscore").innerText = localStorage.getItem("hscore");
 					}
-					alert(hscore);
 						window.location.reload();
 					}
 				}
@@ -239,30 +246,29 @@
 			if(snake1[0].x == 990){
 				console.log(`${snake1[0].x}`);
 				alert("Game end");
-				if(hscore<score){
+				if(localStorage.getItem("hscore")<=score){
 					hscore = score;
 					localStorage.setItem("hscore", hscore );
 					document.getElementById("hscore").innerText = localStorage.getItem("hscore");
 				}
-				alert(hscore);
 				window.location.reload();
 			}
 			if(snake1[0].x ==x1 && snake1[0].y ==y1){
 				ctx.clearRect(x1,y1,unit,unit);
-				x1= Math.floor(Math.random()*1000)+1;
+				x1= Math.floor(Math.random()*900)+1;
 				r = x1%30;
 				x1=x1 - r;
-				y1= Math.floor(Math.random()*500)+1;
+				y1= Math.floor(Math.random()*400)+1;
 				re = y1%30;
 				y1=y1 -re;
 				score++;
 				document.getElementById("score").textContent = score;
 				for(i=0;i<snake1.length-1;i++){
 					if(snake1[i].x ==x1 && snake1[i].y ==y1){
-						x1= Math.floor(Math.random()*1000)+1;
+						x1= Math.floor(Math.random()*900)+1;
 					 	r = x1%30;
 						x1=x1 - r;
-					 	y1= Math.floor(Math.random()*500)+1;
+					 	y1= Math.floor(Math.random()*400)+1;
 					 	re = y1%30;
 						y1=y1 -re;
 					}
@@ -283,12 +289,11 @@
 				for(var i=1;i<snake1.length;i++){
 					if(snake1[i].x==snake1[0].x && snake1[i].y==snake1[0].y){
 						alert("Game end");
-					if(hscore<score){
+					if(localStorage.getItem("hscore")<=score){
 						hscore = score;
 						localStorage.setItem("hscore", hscore );
 						document.getElementById("hscore").innerText = localStorage.getItem("hscore");
 					}
-					alert(hscore);
 						window.location.reload();
 					}
 				}
@@ -308,30 +313,29 @@
 			if(snake1[0].x == 0){
 				console.log(`${snake1[0].x}`);
 				alert("Game end");
-				if(hscore<score){
+				if(localStorage.getItem("hscore")<=score){
 					hscore = score;
 					localStorage.setItem("hscore", hscore );
 					document.getElementById("hscore").innerText = localStorage.getItem("hscore");
 					}
-					alert(hscore);
 				window.location.reload();
 			}
 			if(snake1[0].x ==x1 && snake1[0].y ==y1){
 				ctx.clearRect(x1,y1,unit,unit);
-				x1= Math.floor(Math.random()*1000)+1;
+				x1= Math.floor(Math.random()*900)+1;
 				r = x1%30;
 				x1=x1 - r;
-				y1= Math.floor(Math.random()*500)+1;
+				y1= Math.floor(Math.random()*400)+1;
 				re = y1%30;
 				y1=y1 -re;
 				score++;
 				document.getElementById("score").textContent = score;
 				for(i=0;i<snake1.length-1;i++){
 					if(snake1[i].x ==x1 && snake1[i].y ==y1){
-						x1= Math.floor(Math.random()*1000)+1;
+						x1= Math.floor(Math.random()*900)+1;
 						 r = x1%30;
 						x1=x1 - r;
-						 y1= Math.floor(Math.random()*500)+1;
+						 y1= Math.floor(Math.random()*400)+1;
 						 re = y1%30;
 						y1=y1 -re;
 					}
@@ -352,12 +356,11 @@
 				for(var i=1;i<snake1.length;i++){
 					if(snake1[i].x==snake1[0].x && snake1[i].y==snake1[0].y){
 						alert("Game end");
-					if(hscore<score){
+					if(localStorage.getItem("hscore")<=score){
 						hscore = score;
 						localStorage.setItem("hscore", hscore );
 						document.getElementById("hscore").innerText = localStorage.getItem("hscore");
 					}
-					alert(hscore);
 						window.location.reload();
 					}
 				}
