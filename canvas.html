@@ -2,19 +2,19 @@
 <html>
 <head>
 <style>
-		canvas {border: 10px solid black;}
+		canvas {border: 10px solid rgb(238, 233, 233);}
 	</style>
-	<h1 style="color: black;text-align: center">SNAKE GAME</h1>	
+	<h1 style="color: whitesmoke;text-align: center">SNAKE GAME</h1>	
 </head> 	
-<body style="background-color:coral">
+<body style="background-color:rgb(85, 82, 81)" onload="moveLeft()">
 <div styel = 'margin-left: 70%;'>
-	<label style = 'margin-left: 85%;font-size: 20;color: black'>Score:</label> 
+	<label style = 'margin-left: 85%;font-size: 20;color: whitesmoke'>Score:</label> 
 	<label id = 'score' style = 'font-size: 25;padding: 15;color: white'>0</label>
-	<label style = 'margin-left: 85%;font-size: 20;color: black'>High Score:</label>
+	<label style = 'margin-left: 85%;font-size: 20;color: whitesmoke'>High Score:</label>
 	<label id = 'hscore' style = 'font-size: 25;padding: 15;color: white'>0</label>
 </div>   
 <div align="center" style="margin-top: 25px" id="container" style="text-align: center;"style="position: absolute;">
-	<canvas width="1005" height="500" id="myCanvas" style="background: grey;" style="text-align: center">	
+	<canvas width="1005" height="495" id="myCanvas" style="background: black;" style="text-align: center">	
 	</canvas>
 </div>
 	
@@ -26,16 +26,16 @@
 		const unit = 15;
 		var snake1 = [];
 		snake1[0]={
-			x: 10*unit, y: 20*unit 
+			x: 30*unit, y: 20*unit 
 		};
 		snake1[1]={
-			x: 12*unit	, y: 20*unit
+			x: 32*unit	, y: 20*unit
 		};
 		snake1[2]={
-			x: 14*unit	, y: 20*unit
+			x: 34*unit	, y: 20*unit
 		};
 		snake1[3]={
-			x: 16*unit	, y: 20*unit
+			x: 36*unit	, y: 20*unit
 		};
 		ctx.fillStyle = "red";
 			ctx.fillRect(snake1[0].x,snake1[0].y, unit, unit);
@@ -44,15 +44,70 @@
 			ctx.fillStyle = "white";
 			ctx.fillRect(snake1[i].x,snake1[i].y, unit, unit);
 		}
-		var interval,collisionInterval,direction = "",score=0,hscore=0,flag = 0;
-		var x1= Math.floor(Math.random()*1000)+1;
+		var interval,start,direction = "",score=0,hscore=0,flag = 0;
+		var x1= 500
 		var r = x1%30;
 		x1=x1 - r;
-		var y1= Math.floor(Math.random()*500)+1;
+		var y1= 200;
 		var re = y1%30;
 		y1=y1 -re;
-		ctx.fillStyle="black";
+		ctx.fillStyle="green";
 		ctx.fillRect(x1,y1,unit,unit);
+
+		function moveLeft(){
+			start = setInterval(leftfirst,80);}
+		function leftfirst(){
+			ctx.clearRect(snake1[snake1.length-1].x,snake1[snake1.length-1].y,unit,unit);
+			direction = "left";
+			if(snake1[0].x == 0){
+				console.log(`${snake1[0].x}`);
+				alert("Game end");
+				if(localStorage.getItem("hscore")<=score){
+					hscore = score;
+					localStorage.setItem("hscore", hscore );
+					document.getElementById("hscore").innerText = localStorage.getItem("hscore");
+					}
+				window.location.reload();
+			}
+			if(snake1[0].x ==x1 && snake1[0].y ==y1){
+				ctx.clearRect(x1,y1,unit,unit);
+				food_generating();
+				score+=1;
+				document.getElementById("score").textContent = score;
+					ctx.fillStyle="red";
+					ctx.fillRect(x1,y1,unit,unit);
+				for(var i=snake1.length;i>0;i--){
+					snake1[i] = snake1[i-1];
+				}
+				snake1[0] = {x: snake1[0].x-unit*2 , y: snake1[0].y  };
+				console.log(`${snake1.length}`);
+			}
+			else{
+				for(var i=snake1.length-1;i>0;i--){
+					snake1[i] = snake1[i-1];
+				}
+				snake1[0] = {x: snake1[0].x - unit*2  , y: snake1[0].y};
+				for(var i=1;i<snake1.length;i++){
+					if(snake1[i].x==snake1[0].x && snake1[i].y==snake1[0].y){
+						alert("Game end");
+					if(localStorage.getItem("hscore")<=score){
+						hscore = score;
+						localStorage.setItem("hscore", hscore );
+						document.getElementById("hscore").innerText = localStorage.getItem("hscore");
+					}
+						window.location.reload();
+					}
+				}
+			}
+			ctx.fillStyle = "red";
+			ctx.fillRect(snake1[0].x,snake1[0].y,unit,unit);
+			for(var i=1;i<=snake1.length-1;i++){
+				console.log(`${snake1[i].x},${snake1[i].y}`);
+				ctx.fillStyle = "yellow";
+				ctx.fillRect(snake1[i].x,snake1[i].y,unit,unit); 
+			}
+		}
+		
 		window.addEventListener('keydown', (e) => {
 			if (!e.repeat){
 				console.log(`Key ${e.keyCode} pressed [event: keydown]`);
@@ -60,8 +115,8 @@
 			else{
 				console.log(`Key "${e.keyCode}" repeating [event: keydown]`);
 			}
-			if (interval) {
-				clearInterval(interval);
+			if(start){
+				clearInterval(start);
 			}
 			if(flag == 0){
 				if(`${e.keyCode}` == '39'){
@@ -72,41 +127,60 @@
 			}
 			switch(`${e.keyCode}`){
 				case '38':
+					clearInterval(interval);
 					if (direction!='down'){
-						interval = setInterval(up,100);}
+						interval = setInterval(up,80);}
 					else{
-						interval = setInterval(down,100);	
+						interval = setInterval(down,80);	
 					}	
 					flag = 1;
 				break;
 				case '40':
+					clearInterval(interval);
 					if (direction!='up'){
-						interval = setInterval(down, 100);}
+						interval = setInterval(down, 80);}
 					else{
-						interval = setInterval(up,100);	
+						interval = setInterval(up,80);	
 					}
 					flag = 1;
 				break;
 				case '39':
+					clearInterval(interval);
 					if (direction!='left'){
-						interval = setInterval(right, 100);}
+						interval = setInterval(right,80);}
 					else{
-						interval = setInterval(left,100);	
+						interval = setInterval(left,80);	
 					}	
 					flag = 1;
 				break;
 				case '37':
+					clearInterval(interval);
 					if (direction!='right'){
-						interval = setInterval(left, 100);}
+						interval = setInterval(left, 80);}
 					else{
-						interval = setInterval(right,100);	
+						interval = setInterval(right,80);	
 					}	
 				break;
 				flag = 1;
 				case '27':
 					alert("Paused....")	
 				}
+
+			function food_generating(){
+				for(i=0;i<snake1.length-1;i++){
+					if(snake1[i].x ==x1 && snake1[i].y ==y1){
+						x1= Math.floor(Math.random()*1000)+1;
+						r = x1%30;
+						x1=x1 - r;
+						y1= Math.floor(Math.random()*500)+1;
+						re = y1%30;
+						y1=y1 -re;
+					}
+				}
+			}
+
 			function up(){
+				console.log("up");
 				ctx.clearRect(snake1[snake1.length-1].x,snake1[snake1.length-1].y,unit,unit);
 				direction = "up";
 				if(snake1[0].y == 0){
@@ -120,28 +194,15 @@
 					window.location.reload();
 					}
 				if(snake1[0].x ==x1 && snake1[0].y ==y1){
-					ctx.clearRect(x1,y1,unit,unit);
-					x1= Math.floor(Math.random()*1000)+1;
-					r = x1%30;
-					x1=x1 - r;
-					y1= Math.floor(Math.random()*500)+1;
-					re = y1%30;
-					y1=y1 -re;
 					score++; 
 					hscore++;
+					console.log(score);
+					ctx.clearRect(x1,y1,unit,unit);
+					food_generating();
 					document.getElementById("score").textContent = score;
-					for(i=0;i<snake1.length-1;i++){
-						if(snake1[i].x ==x1 && snake1[i].y ==y1){
-							x1= Math.floor(Math.random()*900)+1;
-							 r = x1%30;
-							x1=x1 - r;
-							 y1= Math.floor(Math.random()*400)+1;
-							 re = y1%30;
-							y1=y1 -re;
-						}
-					}
-					ctx.fillStyle="black";
-					ctx.fillRect(x1,y1,unit,unit);
+					console.log(x1,y1);
+					ctx.fillStyle="green";
+					ctx.fillRect(x1,y1,unit,unit);		
 					for(var i=snake1.length;i>0;i--){
 						snake1[i] = snake1[i-1];
 					}
@@ -175,6 +236,7 @@
 			}
 		}
 		function down(){
+			console.log("down");
 			ctx.clearRect(snake1[snake1.length-1].x,snake1[snake1.length-1].y,unit,unit);
 			direction = "down";
 			if(snake1[0].y == 480){
@@ -188,27 +250,16 @@
 				window.location.reload();
 			}
 			if(snake1[0].x ==x1 && snake1[0].y ==y1){
-				ctx.clearRect(x1,y1,unit,unit);
-				x1= Math.floor(Math.random()*900)+1;
-				r = x1%30;
-				x1=x1 - r;
-				y1= Math.floor(Math.random()*400)+1;
-				re = y1%30;
-				y1=y1 -re;
 				score++;
 				document.getElementById("score").textContent = score;
-				for(i=0;i<snake1.length-1;i++){
-					if(snake1[i].x ==x1 && snake1[i].y ==y1){
-						x1= Math.floor(Math.random()*900)+1;
-						r = x1%30;
-						x1=x1 - r;
-						y1= Math.floor(Math.random()*400)+1;
-						re = y1%30;
-						y1=y1 -re;
-					}
-				}
-				ctx.fillStyle="black";
+				console.log(score);
+				ctx.clearRect(x1,y1,unit,unit);
+				food_generating();
+				
+				console.log(x1,y1);
+				ctx.fillStyle="green";
 				ctx.fillRect(x1,y1,unit,unit);
+						
 				for(var i=snake1.length;i>0;i--){
 					snake1[i] = snake1[i-1];
 				}
@@ -241,6 +292,7 @@
 			}
 		}
 		function right(){
+			console.log("right");
 			ctx.clearRect(snake1[snake1.length-1].x,snake1[snake1.length-1].y,unit,unit);
 			direction = "right";
 			if(snake1[0].x == 990){
@@ -254,26 +306,13 @@
 				window.location.reload();
 			}
 			if(snake1[0].x ==x1 && snake1[0].y ==y1){
-				ctx.clearRect(x1,y1,unit,unit);
-				x1= Math.floor(Math.random()*900)+1;
-				r = x1%30;
-				x1=x1 - r;
-				y1= Math.floor(Math.random()*400)+1;
-				re = y1%30;
-				y1=y1 -re;
 				score++;
+				console.log(score);
+				ctx.clearRect(x1,y1,unit,unit);
+				food_generating();
 				document.getElementById("score").textContent = score;
-				for(i=0;i<snake1.length-1;i++){
-					if(snake1[i].x ==x1 && snake1[i].y ==y1){
-						x1= Math.floor(Math.random()*900)+1;
-					 	r = x1%30;
-						x1=x1 - r;
-					 	y1= Math.floor(Math.random()*400)+1;
-					 	re = y1%30;
-						y1=y1 -re;
-					}
-				}
-				ctx.fillStyle="black";
+				console.log(x1,y1);
+				ctx.fillStyle="green";
 				ctx.fillRect(x1,y1,unit,unit);
 				for(var i=snake1.length;i>0;i--){
 					snake1[i] = snake1[i-1];
@@ -308,6 +347,7 @@
 			
 		}
 		function left(){
+			console.log("left");
 			ctx.clearRect(snake1[snake1.length-1].x,snake1[snake1.length-1].y,unit,unit);
 			direction = "left";
 			if(snake1[0].x == 0){
@@ -321,26 +361,13 @@
 				window.location.reload();
 			}
 			if(snake1[0].x ==x1 && snake1[0].y ==y1){
-				ctx.clearRect(x1,y1,unit,unit);
-				x1= Math.floor(Math.random()*900)+1;
-				r = x1%30;
-				x1=x1 - r;
-				y1= Math.floor(Math.random()*400)+1;
-				re = y1%30;
-				y1=y1 -re;
 				score++;
+				console.log(score);
+				ctx.clearRect(x1,y1,unit,unit);
+				food_generating();
 				document.getElementById("score").textContent = score;
-				for(i=0;i<snake1.length-1;i++){
-					if(snake1[i].x ==x1 && snake1[i].y ==y1){
-						x1= Math.floor(Math.random()*900)+1;
-						 r = x1%30;
-						x1=x1 - r;
-						 y1= Math.floor(Math.random()*400)+1;
-						 re = y1%30;
-						y1=y1 -re;
-					}
-				}
-				ctx.fillStyle="black";
+				console.log(x1,y1);
+				ctx.fillStyle="green";
 				ctx.fillRect(x1,y1,unit,unit);
 				for(var i=snake1.length;i>0;i--){
 					snake1[i] = snake1[i-1];
