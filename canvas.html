@@ -44,7 +44,7 @@
 			ctx.fillStyle = "white";
 			ctx.fillRect(snake1[i].x,snake1[i].y, unit, unit);
 		}
-		var interval,start,direction = "",score=0,hscore=0,flag = 0;
+		var interval,start,direction = "",score=0,hscore=0,flag = 0,len;
 		var x1 = 320;
 		var y1 = 300;
 		
@@ -172,229 +172,151 @@
 						y1=y1 *20+20;
 					}
 				}
+				ctx.fillStyle="green";
+				ctx.fillRect(x1,y1,unit,unit);	
 			}
 
-			function up(){
-				console.log("up");
-				ctx.clearRect(snake1[snake1.length-1].x,snake1[snake1.length-1].y,unit,unit);
-				direction = "up";
-				if(snake1[0].y == 0){
-					console.log(`${snake1[0].y}`);
-					alert("Game end");
-					if(localStorage.getItem("hscore") <= score){
+			function snakeSwapping(len){
+				for(var i=snake1.length-len;i>0;i--){
+					snake1[i] = snake1[i-1];
+				}
+			}
+
+			function drawSnake(){
+				ctx.fillStyle = "red";
+				ctx.fillRect(snake1[0].x,snake1[0].y,unit,unit);
+				for(var i=1;i<=snake1.length-1;i++){
+					console.log(`${snake1[i].x},${snake1[i].y}`);
+					ctx.fillStyle = "yellow";
+					ctx.fillRect(snake1[i].x,snake1[i].y,unit,unit); 
+				}
+			}
+
+			function alertScore(){
+				if(localStorage.getItem("hscore") <= score){
 						hscore = score;
 						localStorage.setItem("hscore", hscore );
 						document.getElementById("hscore").innerText = localStorage.getItem("hscore");
 					}
+			}
+			
+			function up(){
+				ctx.clearRect(snake1[snake1.length-1].x,snake1[snake1.length-1].y,unit,unit);
+				direction = "up";
+				if(snake1[0].y == 0){
+					alert("Game end");
+					alertScore();
 					window.location.reload();
 					}
 				if(snake1[0].x ==x1 && snake1[0].y ==y1){
 					score++; 
 					hscore++;
-					console.log(score);
 					ctx.clearRect(x1,y1,unit,unit);
 					food_generating();
-					document.getElementById("score").textContent = score;
-					console.log(x1,y1);
-					ctx.fillStyle="green";
-					ctx.fillRect(x1,y1,unit,unit);		
-					for(var i=snake1.length;i>0;i--){
-						snake1[i] = snake1[i-1];
-					}
-					
+					document.getElementById("score").textContent = score;	
+					snakeSwapping(0);
 					snake1[0] = {x: snake1[0].x , y: snake1[0].y - 20 };
-					console.log(`${snake1.length}`);
 				}
 				else{
-					for(var i=snake1.length-1;i>0;i--){
-						snake1[i] = snake1[i-1];
-					}
+					snakeSwapping(1);
 					snake1[0] = {x: snake1[0].x , y: snake1[0].y - 20 };
 					for(var i=1;i<snake1.length;i++){
 						if(snake1[i].x==snake1[0].x && snake1[i].y==snake1[0].y){
 							alert("Game end");
-							if(localStorage.getItem("hscore")<=score){
-								hscore = score;
-								localStorage.setItem("hscore", hscore );
-								document.getElementById("hscore").innerText = localStorage.getItem("hscore");
-							}
+							alertScore();
 						window.location.reload();
 						}
 					}
 				}
-			ctx.fillStyle = "red";
-			ctx.fillRect(snake1[0].x,snake1[0].y,unit,unit);
-			for(var i=1;i<=snake1.length-1;i++){
-				console.log(`${snake1[i].x},${snake1[i].y}`);
-				ctx.fillStyle = "yellow";
-				ctx.fillRect(snake1[i].x,snake1[i].y,unit,unit); 
-			}
+			drawSnake();
 		}
 		function down(){
-			console.log("down");
 			ctx.clearRect(snake1[snake1.length-1].x,snake1[snake1.length-1].y,unit,unit);
 			direction = "down";
 			if(snake1[0].y == 480){
-				console.log(`${snake1[0].y}`);
 				alert("Game end");
-				if(localStorage.getItem("hscore")<=score){
-					hscore = score;
-					localStorage.setItem("hscore", hscore );
-					document.getElementById("hscore").innerText = localStorage.getItem("hscore");
-					}
+				alertScore();
 				window.location.reload();
 			}
 			if(snake1[0].x ==x1 && snake1[0].y ==y1){
 				score++;
 				document.getElementById("score").textContent = score;
-				console.log(score);
 				ctx.clearRect(x1,y1,20,20);
-				food_generating();
-				
-				console.log(x1,y1);
-				ctx.fillStyle="green";
-				ctx.fillRect(x1,y1,unit,unit);
-						
-				for(var i=snake1.length;i>0;i--){
-					snake1[i] = snake1[i-1];
-				}
+				food_generating();		
+				snakeSwapping(0);
 			snake1[0] = {x: snake1[0].x , y: snake1[0].y + 20 };
 			console.log(`${snake1.length}`);
 			}
 			else{
-				for(var i=snake1.length-1;i>0;i--){
-					snake1[i] = snake1[i-1];
-				}
+				snakeSwapping(1);
 				snake1[0] = {x: snake1[0].x , y: snake1[0].y + 20 };
 				for(var i=1;i<snake1.length;i++){
 					if(snake1[i].x==snake1[0].x && snake1[i].y==snake1[0].y){
 						alert("Game end");
-					if(localStorage.getItem("hscore")<=score){
-						hscore = score;
-						localStorage.setItem("hscore", hscore );
-						document.getElementById("hscore").innerText = localStorage.getItem("hscore");
-					}
+						alertScore();
 						window.location.reload();
 					}
 				}
 			}
-			ctx.fillStyle = "red";
-			ctx.fillRect(snake1[0].x,snake1[0].y,unit,unit);
-			for(var i=1;i<=snake1.length-1;i++){
-				console.log(`${snake1[i].x},${snake1[i].y}`);
-				ctx.fillStyle = "yellow";
-				ctx.fillRect(snake1[i].x,snake1[i].y,unit,unit); 
-			}
+			drawSnake();
 		}
 		function right(){
-			console.log("right");
 			ctx.clearRect(snake1[snake1.length-1].x,snake1[snake1.length-1].y,unit,unit);
 			direction = "right";
 			if(snake1[0].x == 980){
-				console.log(`${snake1[0].x}`);
 				alert("Game end");
-				if(localStorage.getItem("hscore")<=score){
-					hscore = score;
-					localStorage.setItem("hscore", hscore );
-					document.getElementById("hscore").innerText = localStorage.getItem("hscore");
-				}
+				alertScore();
 				window.location.reload();
 			}
 			if(snake1[0].x ==x1 && snake1[0].y ==y1){
 				score++;
-				console.log(score);
 				ctx.clearRect(x1,y1,20,20);
 				food_generating();
 				document.getElementById("score").textContent = score;
-				console.log(x1,y1);
-				ctx.fillStyle="green";
-				ctx.fillRect(x1,y1,unit,unit);
-				for(var i=snake1.length;i>0;i--){
-					snake1[i] = snake1[i-1];
-				}
+				snakeSwapping(0);
 				snake1[0] = {x: snake1[0].x+20 , y: snake1[0].y };
-				console.log(`${snake1.length}`);
 			}
 			else{
-				for(var i=snake1.length-1;i>0;i--){
-					snake1[i] = snake1[i-1];
-				}
+				snakeSwapping(1);
 				snake1[0] = {x: snake1[0].x + 20 , y: snake1[0].y   };
 				for(var i=1;i<snake1.length;i++){
 					if(snake1[i].x==snake1[0].x && snake1[i].y==snake1[0].y){
 						alert("Game end");
-					if(localStorage.getItem("hscore")<=score){
-						hscore = score;
-						localStorage.setItem("hscore", hscore );
-						document.getElementById("hscore").innerText = localStorage.getItem("hscore");
-					}
+						alertScore();
 						window.location.reload();
 					}
 				}
 			}
-			ctx.fillStyle = "red";
-			ctx.fillRect(snake1[0].x,snake1[0].y,unit,unit);
-			for(var i=1;i<=snake1.length-1;i++){
-				console.log(`${snake1[i].x},${snake1[i].y}`);
-				ctx.fillStyle = "yellow";
-				ctx.fillRect(snake1[i].x,snake1[i].y,unit,unit); 
-			}
-			
+			drawSnake();
 		}
 		function left(){
-			console.log("left");
 			ctx.clearRect(snake1[snake1.length-1].x,snake1[snake1.length-1].y,unit,unit);
 			direction = "left";
-			console.log(`${snake1[0].x}`);
 			if(snake1[0].x == 0){
-				
 				alert("Game end");
-				if(localStorage.getItem("hscore")<=score){
-					hscore = score;
-					localStorage.setItem("hscore", hscore );
-					document.getElementById("hscore").innerText = localStorage.getItem("hscore");
-					}
+				alertScore();
 				window.location.reload();
 			}
 			if(snake1[0].x ==x1 && snake1[0].y ==y1){
 				score++;
-				console.log(score);
 				ctx.clearRect(x1,y1,20,20);
 				food_generating();
 				document.getElementById("score").textContent = score;
-				console.log(x1,y1);
-				ctx.fillStyle="green";
-				ctx.fillRect(x1,y1,unit,unit);
-				for(var i=snake1.length;i>0;i--){
-					snake1[i] = snake1[i-1];
-				}
+				snakeSwapping(0);
 				snake1[0] = {x: snake1[0].x-20 , y: snake1[0].y  };
-				console.log(`${snake1.length}`);
 			}
 			else{
-				for(var i=snake1.length-1;i>0;i--){
-					snake1[i] = snake1[i-1];
-				}
+				snakeSwapping(1);
 				snake1[0] = {x: snake1[0].x - 20  , y: snake1[0].y};
 				for(var i=1;i<snake1.length;i++){
 					if(snake1[i].x==snake1[0].x && snake1[i].y==snake1[0].y){
 						alert("Game end");
-					if(localStorage.getItem("hscore")<=score){
-						hscore = score;
-						localStorage.setItem("hscore", hscore );
-						document.getElementById("hscore").innerText = localStorage.getItem("hscore");
-					}
+						alertScore();
 						window.location.reload();
 					}
 				}
 			}
-			ctx.fillStyle = "red";
-			ctx.fillRect(snake1[0].x,snake1[0].y,unit,unit);
-			for(var i=1;i<=snake1.length-1;i++){
-				console.log(`${snake1[i].x},${snake1[i].y}`);
-				ctx.fillStyle = "yellow";
-				ctx.fillRect(snake1[i].x,snake1[i].y,unit,unit); 
-			}
+			drawSnake();
 		}
 		});
 	</script>
