@@ -2,7 +2,7 @@
 <html>
 <head>
 <style>
-		canvas {border: 10px solid rgb(238, 233, 233);}
+		canvas {border: 5px solid rgb(238, 233, 233);}
 	</style>
 	<h1 style="color: whitesmoke;text-align: center">SNAKE GAME</h1>	
 </head> 	
@@ -14,7 +14,7 @@
 	<label id = 'hscore' style = 'font-size: 25;padding: 15;color: white'>0</label>
 </div>   
 <div align="center" style="margin-top: 25px" id="container" style="text-align: center;"style="position: absolute;">
-	<canvas width="1005" height="495" id="myCanvas" style="background: black;" style="text-align: center">	
+	<canvas width="995" height="495" id="myCanvas" style="background: black;" style="text-align: center;"style="padding:50px">	
 	</canvas>
 </div>
 	
@@ -26,16 +26,16 @@
 		const unit = 15;
 		var snake1 = [];
 		snake1[0]={
-			x: 30*unit, y: 20*unit 
+			x: 20*unit, y: 20*unit 
 		};
 		snake1[1]={
-			x: 32*unit	, y: 20*unit
+			x: 20*unit+1	, y: 20*unit
 		};
 		snake1[2]={
-			x: 34*unit	, y: 20*unit
+			x: 20*unit+2	, y: 20*unit
 		};
 		snake1[3]={
-			x: 36*unit	, y: 20*unit
+			x: 20*unit+3	, y: 20*unit
 		};
 		ctx.fillStyle = "red";
 			ctx.fillRect(snake1[0].x,snake1[0].y, unit, unit);
@@ -45,12 +45,9 @@
 			ctx.fillRect(snake1[i].x,snake1[i].y, unit, unit);
 		}
 		var interval,start,direction = "",score=0,hscore=0,flag = 0;
-		var x1= 500
-		var r = x1%30;
-		x1=x1 - r;
-		var y1= 200;
-		var re = y1%30;
-		y1=y1 -re;
+		var x1 = 320;
+		var y1 = 300;
+		
 		ctx.fillStyle="green";
 		ctx.fillRect(x1,y1,unit,unit);
 
@@ -79,14 +76,14 @@
 				for(var i=snake1.length;i>0;i--){
 					snake1[i] = snake1[i-1];
 				}
-				snake1[0] = {x: snake1[0].x-unit*2 , y: snake1[0].y  };
+				snake1[0] = {x: snake1[0].x-20 , y: snake1[0].y  };
 				console.log(`${snake1.length}`);
 			}
 			else{
 				for(var i=snake1.length-1;i>0;i--){
 					snake1[i] = snake1[i-1];
 				}
-				snake1[0] = {x: snake1[0].x - unit*2  , y: snake1[0].y};
+				snake1[0] = {x: snake1[0].x - 20  , y: snake1[0].y};
 				for(var i=1;i<snake1.length;i++){
 					if(snake1[i].x==snake1[0].x && snake1[i].y==snake1[0].y){
 						alert("Game end");
@@ -169,12 +166,10 @@
 			function food_generating(){
 				for(i=0;i<snake1.length-1;i++){
 					if(snake1[i].x ==x1 && snake1[i].y ==y1){
-						x1= Math.floor(Math.random()*1000)+1;
-						r = x1%30;
-						x1=x1 - r;
-						y1= Math.floor(Math.random()*500)+1;
-						re = y1%30;
-						y1=y1 -re;
+						x1= Math.floor(Math.random()*40)+1;
+						x1=x1*20+20;
+						y1= Math.floor(Math.random()*20)+1;
+						y1=y1 *20+20;
 					}
 				}
 			}
@@ -207,14 +202,14 @@
 						snake1[i] = snake1[i-1];
 					}
 					
-					snake1[0] = {x: snake1[0].x , y: snake1[0].y - unit*2 };
+					snake1[0] = {x: snake1[0].x , y: snake1[0].y - 20 };
 					console.log(`${snake1.length}`);
 				}
 				else{
 					for(var i=snake1.length-1;i>0;i--){
 						snake1[i] = snake1[i-1];
 					}
-					snake1[0] = {x: snake1[0].x , y: snake1[0].y - unit*2 };
+					snake1[0] = {x: snake1[0].x , y: snake1[0].y - 20 };
 					for(var i=1;i<snake1.length;i++){
 						if(snake1[i].x==snake1[0].x && snake1[i].y==snake1[0].y){
 							alert("Game end");
@@ -253,7 +248,7 @@
 				score++;
 				document.getElementById("score").textContent = score;
 				console.log(score);
-				ctx.clearRect(x1,y1,unit,unit);
+				ctx.clearRect(x1,y1,20,20);
 				food_generating();
 				
 				console.log(x1,y1);
@@ -263,14 +258,14 @@
 				for(var i=snake1.length;i>0;i--){
 					snake1[i] = snake1[i-1];
 				}
-			snake1[0] = {x: snake1[0].x , y: snake1[0].y + unit*2 };
+			snake1[0] = {x: snake1[0].x , y: snake1[0].y + 20 };
 			console.log(`${snake1.length}`);
 			}
 			else{
 				for(var i=snake1.length-1;i>0;i--){
 					snake1[i] = snake1[i-1];
 				}
-				snake1[0] = {x: snake1[0].x , y: snake1[0].y + unit*2 };
+				snake1[0] = {x: snake1[0].x , y: snake1[0].y + 20 };
 				for(var i=1;i<snake1.length;i++){
 					if(snake1[i].x==snake1[0].x && snake1[i].y==snake1[0].y){
 						alert("Game end");
@@ -295,7 +290,7 @@
 			console.log("right");
 			ctx.clearRect(snake1[snake1.length-1].x,snake1[snake1.length-1].y,unit,unit);
 			direction = "right";
-			if(snake1[0].x == 990){
+			if(snake1[0].x == 980){
 				console.log(`${snake1[0].x}`);
 				alert("Game end");
 				if(localStorage.getItem("hscore")<=score){
@@ -308,7 +303,7 @@
 			if(snake1[0].x ==x1 && snake1[0].y ==y1){
 				score++;
 				console.log(score);
-				ctx.clearRect(x1,y1,unit,unit);
+				ctx.clearRect(x1,y1,20,20);
 				food_generating();
 				document.getElementById("score").textContent = score;
 				console.log(x1,y1);
@@ -317,14 +312,14 @@
 				for(var i=snake1.length;i>0;i--){
 					snake1[i] = snake1[i-1];
 				}
-				snake1[0] = {x: snake1[0].x+unit*2 , y: snake1[0].y };
+				snake1[0] = {x: snake1[0].x+20 , y: snake1[0].y };
 				console.log(`${snake1.length}`);
 			}
 			else{
 				for(var i=snake1.length-1;i>0;i--){
 					snake1[i] = snake1[i-1];
 				}
-				snake1[0] = {x: snake1[0].x + unit*2 , y: snake1[0].y   };
+				snake1[0] = {x: snake1[0].x + 20 , y: snake1[0].y   };
 				for(var i=1;i<snake1.length;i++){
 					if(snake1[i].x==snake1[0].x && snake1[i].y==snake1[0].y){
 						alert("Game end");
@@ -350,8 +345,9 @@
 			console.log("left");
 			ctx.clearRect(snake1[snake1.length-1].x,snake1[snake1.length-1].y,unit,unit);
 			direction = "left";
+			console.log(`${snake1[0].x}`);
 			if(snake1[0].x == 0){
-				console.log(`${snake1[0].x}`);
+				
 				alert("Game end");
 				if(localStorage.getItem("hscore")<=score){
 					hscore = score;
@@ -363,7 +359,7 @@
 			if(snake1[0].x ==x1 && snake1[0].y ==y1){
 				score++;
 				console.log(score);
-				ctx.clearRect(x1,y1,unit,unit);
+				ctx.clearRect(x1,y1,20,20);
 				food_generating();
 				document.getElementById("score").textContent = score;
 				console.log(x1,y1);
@@ -372,14 +368,14 @@
 				for(var i=snake1.length;i>0;i--){
 					snake1[i] = snake1[i-1];
 				}
-				snake1[0] = {x: snake1[0].x-unit*2 , y: snake1[0].y  };
+				snake1[0] = {x: snake1[0].x-20 , y: snake1[0].y  };
 				console.log(`${snake1.length}`);
 			}
 			else{
 				for(var i=snake1.length-1;i>0;i--){
 					snake1[i] = snake1[i-1];
 				}
-				snake1[0] = {x: snake1[0].x - unit*2  , y: snake1[0].y};
+				snake1[0] = {x: snake1[0].x - 20  , y: snake1[0].y};
 				for(var i=1;i<snake1.length;i++){
 					if(snake1[i].x==snake1[0].x && snake1[i].y==snake1[0].y){
 						alert("Game end");
