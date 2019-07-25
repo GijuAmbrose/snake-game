@@ -8,4 +8,9 @@
   Canvas is an html element which can be used draw graphics via scripting.Here script used is javascript. The tag used is <canvas></canvas>. We have to specify height and width of canvas inside the canvas tag. The tag must be included inside the body of html page.
   
   <canvas  width =”995” height= “495 “ id= “myCanvas”></canvas>
-  The out will be : 
+  The out will be :
+  
+  ![box](https://user-images.githubusercontent.com/52073455/61852263-ab332180-aed6-11e9-8b49-231226c24688.png)
+  
+  
+  
