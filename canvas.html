@@ -110,7 +110,7 @@
 				console.log(`Key ${e.keyCode} pressed [event: keydown]`);
 			}
 			else{
-				console.log(`Key "${e.keyCode}" repeating [event: keydown]`);
+				return;
 			}
 			if(start){
 				clearInterval(start);
